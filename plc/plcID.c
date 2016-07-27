@@ -4,38 +4,38 @@
  *
  *   All rights reserved.
  *
- *   Redistribution and use in source and binary forms, with or 
- *   without modification, are permitted (subject to the limitations 
- *   in the disclaimer below) provided that the following conditions 
+ *   Redistribution and use in source and binary forms, with or
+ *   without modification, are permitted (subject to the limitations
+ *   in the disclaimer below) provided that the following conditions
  *   are met:
  *
- *   * Redistributions of source code must retain the above copyright 
+ *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
  *
- *   * Redistributions in binary form must reproduce the above 
- *     copyright notice, this list of conditions and the following 
- *     disclaimer in the documentation and/or other materials 
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials
  *     provided with the distribution.
  *
- *   * Neither the name of Qualcomm Atheros nor the names of 
- *     its contributors may be used to endorse or promote products 
- *     derived from this software without specific prior written 
+ *   * Neither the name of Qualcomm Atheros nor the names of
+ *     its contributors may be used to endorse or promote products
+ *     derived from this software without specific prior written
  *     permission.
  *
- *   NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE 
- *   GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE 
- *   COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR 
- *   IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- *   PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER 
- *   OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- *   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
- *   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
- *   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- *   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
- *   OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+ *   NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+ *   GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE
+ *   COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ *   IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *   PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ *   OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ *   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ *   OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *--------------------------------------------------------------------*/
 
@@ -45,7 +45,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -149,7 +149,7 @@
  *   detection and selection may not be this simple in the future;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -288,7 +288,7 @@ static signed ReadKey1 (struct plc * plc)
  *   print requested plc->action on stdout;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -381,7 +381,7 @@ static signed ReadKey2 (struct plc * plc)
 		{
 			putc (plc->coupling, stdout);
 		}
-		do 
+		do
 		{
 			nvm_header = (struct nvm_header2 *) (& confirm->MODULE_DATA [offset]);
 			if (LE16TOH (nvm_header->MajorVersion) != 1)
@@ -479,7 +479,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"Ac:Dei:MnNqSUv",
+		"Ac:Dei:MnNqSt:Uv",
 		"device",
 		"Qualcomm Atheros Powerline Device Identity",
 		"A\tEthernet address (MAC)",
@@ -502,6 +502,7 @@ int main (int argc, char const * argv [])
 		"N\tnetwork HFID",
 		"q\tquiet mode",
 		"S\tmanufacturer HFID",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"U\tuser HFID",
 		"v\tverbose mode",
 		(char const *) (0)
@@ -572,6 +573,9 @@ int main (int argc, char const * argv [])
 		case 'S':
 			plc.action = PLCID_MFG;
 			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
 		case 'U':
 			plc.action = PLCID_USR;
 			break;
@@ -579,7 +583,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
-		default: 
+		default:
 			break;
 		}
 	}

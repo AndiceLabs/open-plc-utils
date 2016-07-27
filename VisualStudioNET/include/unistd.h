@@ -26,9 +26,9 @@
  *   this is an important POSIX header that Microsoft ommits; 
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Abdel Younes <younes@leacom.fr>
+ *	Charles Maier
+ *	Nathaniel Houghton
+ *	Abdel Younes
  *
  *--------------------------------------------------------------------*/
 
@@ -65,7 +65,9 @@ typedef signed ssize_t;
 #define vsnprintf _vsnprintf
 #endif
 
+#if !defined (_MSC_VER) || _MSC_VER < 1900
 #define snprintf _snprintf
+#endif
 
 /*====================================================================*
  *
